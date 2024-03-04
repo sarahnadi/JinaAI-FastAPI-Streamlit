@@ -1,0 +1,59 @@
+
+
+environment requirements:
+
+all libraries required by Jina
+besides fastapi uvicorn streamlit
+
+PS: both  app.py and ui.py (backend and frontend) should be run from the virtual environemnt including all required librares.
+
+app.py:
+This code has the same code as in ./JinaAI/query.py, but it uses fastapi to create the API route to the endpoint.
+as it's like query.py which fetches results from the file indexed_data.pickle
+
+how to run: 
+This is a fastapi code - we should be in the right environment which includes all libraries.
+we make sure that fastapi is installed.
+CMD: uvicorn app:app --reload
+--the first app is fastapi app, second app is the name of python script including the fastapi code.
+When this is run it opens in the browser showing {"detail":"Not Found"}
+it's normal because here is waiting for the request (query that we will input from the interface and then it will return results)
+
+ui.py:
+this is an interface where we input the query to be sent to the fastapi endpoint and fetch results.
+CMD: streamlit run.py
+
+after running ui and getting results
+
+this code runs fine (from the interface and sending query side), but the results cannot be fetched from the indexed_data.pickle,
+it says:
+ERROR: Could not find a version that satisfies the requirement torch==1.9.0+cpu - ERROR: No matching distribution found for torch==1.9.0+cpu
+===solved, I had to activate myenv1 to run== the version of torch is there.
+
+-- Now run the same code with streamlitenv virtual environment:
+all libraries required by Jina
+besides fastapi uvicorn streamlit
+
+activate virtual environment:
+source streamlitenv/bin/activate
+
+run fastapi and streramlit code:
+uvicorn app:app --reload
+streamlit run ui.py
+when I run ui.py -> error module not found No module named '_bz2'
+to make sure libraries are installed in the system, I shout 
+sudo apt update
+sudo apt install libbz2-dev
+-- After installing libraries we need to rebuild python environment to ensure that newly installed modules are compiled and installed correctly.
+To rebuild python environment:
+deactivate --> to deactivate the virtual environment
+
+conda env export > environment.yml
+
+rebuild python environmnt:
+./configure
+make -j 4
+make altinstall
+sudo make altinstall
+
+
